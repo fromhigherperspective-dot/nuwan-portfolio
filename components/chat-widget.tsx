@@ -54,11 +54,6 @@ export function ChatWidget() {
     return () => clearTimeout(timer)
   }, [])
 
-  useEffect(() => {
-    if (!bubble) return
-    const timer = setTimeout(() => setBubble(false), 7000)
-    return () => clearTimeout(timer)
-  }, [bubble])
 
   useEffect(() => {
     if (open && messages.length === 0) {
@@ -110,9 +105,15 @@ export function ChatWidget() {
 
       {/* Speech bubble — pill shape above button */}
       <div className={`absolute bottom-16 right-0 transition-all duration-500 ${bubble && !open ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-3 scale-95 pointer-events-none'}`}>
-        <div className="relative bg-foreground text-background px-4 py-2 rounded-full text-xs font-medium shadow-xl whitespace-nowrap">
+        <div className="relative bg-foreground text-background pl-4 pr-2 py-2 rounded-full text-xs font-medium shadow-xl whitespace-nowrap flex items-center gap-2">
           Hi, I'm Nuwan's AI 👋
-          <div className="absolute -bottom-1 right-4 w-2.5 h-2.5 bg-foreground rotate-45 rounded-sm" />
+          <button
+            onClick={(e) => { e.stopPropagation(); setBubble(false) }}
+            className="w-4 h-4 rounded-full bg-background/20 hover:bg-background/40 flex items-center justify-center transition-colors"
+          >
+            <X className="h-2.5 w-2.5" />
+          </button>
+          <div className="absolute -bottom-1 right-6 w-2.5 h-2.5 bg-foreground rotate-45 rounded-sm" />
         </div>
       </div>
 
