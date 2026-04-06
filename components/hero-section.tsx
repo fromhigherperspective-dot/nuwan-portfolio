@@ -73,7 +73,7 @@ export function HeroSection() {
               <div className="absolute -bottom-4 -right-4 w-full h-full border border-border opacity-60" />
               <div className="absolute -bottom-8 -right-8 w-full h-full border border-border opacity-30" />
               {/* Portrait */}
-              <div className="relative w-[484px] h-[605px] sm:w-[545px] sm:h-[680px] lg:w-[605px] lg:h-[756px] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
+              <div className="relative w-[339px] h-[424px] sm:w-[382px] sm:h-[476px] lg:w-[424px] lg:h-[529px] overflow-hidden grayscale hover:grayscale-0 transition-all duration-700">
                 <Image
                   src="/images/hero-portrait.jpg"
                   alt="Nuwan Jayasekara, Creative & Marketing Manager"

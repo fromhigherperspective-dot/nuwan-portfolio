@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { ArrowUpRight, ExternalLink } from "lucide-react"
+
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const experience = [
@@ -43,12 +44,12 @@ const experience = [
   {
     id: 3,
     period: "2017 to 2021",
-    role: "Marketing & Content Manager",
+    role: "Marketing & Content",
     company: "Fractal Systems",
     link: "https://www.fractalsystems.ae/",
     type: "Full-Time · Dubai",
     description:
-      "Managed digital marketing, content creation, and brand communications for a Dubai-based technology company.",
+      "Managed digital marketing, content creation, and brand communications for one of the UAE's leading event technology providers.",
     highlights: [
       "Led a full website redesign, improving UX and brand presentation",
       "Planned and executed digital ad campaigns on Facebook, Instagram, and Google",
@@ -80,6 +81,7 @@ const experience = [
 export function ExperienceSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null)
   const [selectedId, setSelectedId] = useState<number>(1)
+  const [expandedMobileId, setExpandedMobileId] = useState<number | null>(null)
   const activeId = hoveredId ?? selectedId
   const { ref: sectionRef, isVisible } = useScrollAnimation(0.05)
 
@@ -103,42 +105,60 @@ export function ExperienceSection() {
               </span>
             </h2>
           </div>
-          <p className={`text-muted-foreground max-w-md text-sm sm:text-base transition-all duration-700 delay-300 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-            12+ years across marketing, content creation, brand development, and AI product building.
-          </p>
         </div>
 
         {/* Mobile: Stacked cards */}
-        <div className="lg:hidden space-y-6">
-          {experience.map((item, index) => (
-            <div
-              key={item.id}
-              className={`border border-border p-6 transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
-              style={{ transitionDelay: `${400 + index * 100}ms` }}
-            >
-              <div className="flex items-center gap-3 mb-3">
-                <span className="text-xs font-mono text-muted-foreground">{item.period}</span>
-                <span className="text-xs border border-border px-2 py-0.5 text-muted-foreground">{item.type}</span>
+        <div className="lg:hidden space-y-3">
+          {experience.map((item, index) => {
+            const isExpanded = expandedMobileId === item.id
+            return (
+              <div
+                key={item.id}
+                className={`border border-border overflow-hidden transition-all duration-500 ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+                style={{ transitionDelay: `${400 + index * 100}ms` }}
+              >
+                {/* Clickable header */}
+                <button
+                  className="w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-left"
+                  onClick={() => setExpandedMobileId(isExpanded ? null : item.id)}
+                >
+                  <div>
+                    <span className="text-xs text-muted-foreground uppercase tracking-widest block mb-1">{item.type} · {item.period}</span>
+                    <h3 className="text-base sm:text-lg font-semibold">{item.role}</h3>
+                    <p className="text-sm text-muted-foreground mt-0.5">{item.company}</p>
+                  </div>
+                  <ArrowUpRight className={`h-4 w-4 text-muted-foreground flex-shrink-0 transition-transform duration-300 ${isExpanded ? 'rotate-90' : ''}`} />
+                </button>
+
+                {/* Expandable content */}
+                <div className={`overflow-hidden transition-all duration-400 ease-in-out ${isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="px-4 sm:px-5 pb-5 border-t border-border pt-4 space-y-4">
+                    <p className="text-sm text-foreground leading-relaxed">{item.description}</p>
+                    <ul className="space-y-2">
+                      {item.highlights.map((point, i) => (
+                        <li key={i} className="flex items-start gap-2 text-sm text-foreground">
+                          <span className="mt-2 w-1.5 h-1.5 bg-foreground rounded-full flex-shrink-0" />
+                          {point}
+                        </li>
+                      ))}
+                    </ul>
+                    {item.link && (
+                      <a
+                        href={item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                        onClick={(e) => e.stopPropagation()}
+                      >
+                        {item.link.replace("https://", "").replace(/\/$/, "")}
+                        <ExternalLink className="h-3 w-3" />
+                      </a>
+                    )}
+                  </div>
+                </div>
               </div>
-              <h3 className="text-xl font-bold mb-1">{item.role}</h3>
-              {item.link ? (
-                <a href={item.link} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-base text-muted-foreground hover:text-foreground transition-colors mb-4">
-                  {item.company} <ExternalLink className="h-4 w-4" />
-                </a>
-              ) : (
-                <p className="text-base text-muted-foreground mb-4">{item.company}</p>
-              )}
-              <p className="text-base text-foreground leading-relaxed mb-4">{item.description}</p>
-              <ul className="space-y-2">
-                {item.highlights.map((point, i) => (
-                  <li key={i} className="flex items-start gap-2 text-base text-foreground">
-                    <span className="mt-2.5 w-1.5 h-1.5 bg-foreground rounded-full flex-shrink-0" />
-                    {point}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Desktop: List + Info Panel */}

@@ -1,8 +1,8 @@
 "use client"
 
 import { useState } from "react"
-import { ArrowUpRight } from "lucide-react"
-import Image from "next/image"
+import { ArrowUpRight, Download } from "lucide-react"
+
 import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const projects = [
@@ -13,7 +13,7 @@ const projects = [
     year: "2022",
     description: "Launched a fully redesigned website for Select Training & Management Consultancy, resulting in a 47% increase in website visits and a significantly improved online presence.",
     image: "/images/project-2.jpg",
-    link: null,
+    link: "https://selecttraining.ae",
   },
   {
     id: 2,
@@ -32,13 +32,15 @@ const projects = [
     description: "Developed comprehensive brand guidelines for Select Training, covering logo usage, colour palette, typography, and tone of voice, ensuring consistency across all marketing materials.",
     image: "/images/project-4.jpg",
     link: null,
+    download: "/images/select-identity-guidelines.pdf",
+    downloadLabel: "Brand Guidelines",
   },
   {
     id: 4,
     title: "Video Production and Content Series",
     category: "Video Production",
     year: "2022",
-    description: "End-to-end video production including concept, filming, and post-production for corporate campaigns and social media. All videography curated, captured, and edited in-house.",
+    description: "End-to-end video production including concept, filming, and post-production for corporate campaigns and social media. Everything from scripting and shooting to editing and delivery, done personally.",
     image: "/images/project-5.jpg",
     link: null,
   },
@@ -47,6 +49,7 @@ const projects = [
 export function ProjectsSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null)
   const [selectedId, setSelectedId] = useState<number>(1)
+  const [expandedMobileId, setExpandedMobileId] = useState<number | null>(null)
   const activeId = hoveredId ?? selectedId
   const { ref: sectionRef, isVisible } = useScrollAnimation(0.1)
 
@@ -71,53 +74,76 @@ export function ProjectsSection() {
         </div>
 
         {/* Mobile: Card Layout */}
-        <div className="lg:hidden space-y-6">
-          {projects.map((project, index) => (
-            <div
-              key={project.id}
-              className={`border border-border overflow-hidden transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-              style={{ transitionDelay: `${400 + index * 100}ms` }}
-            >
-              <div className="relative aspect-video">
-                <Image
-                  src={project.image}
-                  alt={project.title}
-                  fill
-                  className="object-cover grayscale"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-xs text-muted-foreground bg-secondary/80 px-2 py-1">
-                      {project.category}
-                    </span>
-                    <span className="text-xs text-muted-foreground">
-                      {project.year}
-                    </span>
+        <div className="lg:hidden space-y-3">
+          {projects.map((project, index) => {
+            const isExpanded = expandedMobileId === project.id
+            return (
+              <div
+                key={project.id}
+                className={`border border-border overflow-hidden transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                style={{ transitionDelay: `${400 + index * 100}ms` }}
+              >
+                {/* Clickable header */}
+                <button
+                  className="w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-left"
+                  onClick={() => setExpandedMobileId(isExpanded ? null : project.id)}
+                >
+                  <div>
+                    <span className="text-xs text-muted-foreground uppercase tracking-widest block mb-1">{project.category} · {project.year}</span>
+                    <h3 className="text-base sm:text-lg font-semibold">{project.title}</h3>
+                  </div>
+                  <ArrowUpRight className={`h-4 w-4 text-muted-foreground flex-shrink-0 transition-transform duration-300 ${isExpanded ? 'rotate-90' : ''}`} />
+                </button>
+
+                {/* Expandable content */}
+                <div className={`overflow-hidden transition-all duration-400 ease-in-out ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+                  <div className="px-4 sm:px-5 pb-5 space-y-4 border-t border-border pt-4">
+                    <p className="text-sm text-foreground leading-relaxed">{project.description}</p>
+
+                    <div className="flex flex-wrap gap-4 pt-2">
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Year</p>
+                        <p className="text-sm font-medium">{project.year}</p>
+                      </div>
+                      <div>
+                        <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Type</p>
+                        <p className="text-sm font-medium">{project.category}</p>
+                      </div>
+                      {project.link && (
+                        <div>
+                          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Live</p>
+                          <a
+                            href={project.link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="text-sm font-medium flex items-center gap-1 hover:text-muted-foreground transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {project.link.replace("https://", "")}
+                            <ArrowUpRight className="h-3 w-3" />
+                          </a>
+                        </div>
+                      )}
+                      {project.download && (
+                        <div>
+                          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Download</p>
+                          <a
+                            href={project.download}
+                            download
+                            className="text-sm font-medium flex items-center gap-1 hover:text-muted-foreground transition-colors"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {project.downloadLabel}
+                            <Download className="h-3 w-3" />
+                          </a>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
-              <div className="p-4 sm:p-6">
-                <div className="flex items-start justify-between gap-4 mb-3">
-                  <div>
-                    <h3 className="text-lg sm:text-xl font-semibold">
-                      {project.title}
-                    </h3>
-                    </div>
-                  {project.link ? (
-                    <a href={project.link} target="_blank" rel="noopener noreferrer">
-                      <ArrowUpRight className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-1 hover:text-foreground transition-colors" />
-                    </a>
-                  ) : (
-                    <ArrowUpRight className="h-5 w-5 text-muted-foreground flex-shrink-0 mt-1" />
-                  )}
-                </div>
-                <p className="text-base text-foreground leading-relaxed">
-                  {project.description}
-                </p>
-              </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
 
         {/* Desktop: List Layout with Preview */}
@@ -212,6 +238,22 @@ export function ProjectsSection() {
                           >
                             {project.link.replace("https://", "")}
                             <ArrowUpRight className="h-4 w-4" />
+                          </a>
+                        </div>
+                      </>
+                    )}
+                    {project.download && (
+                      <>
+                        <div className="w-px h-8 bg-border" />
+                        <div>
+                          <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Download</p>
+                          <a
+                            href={project.download}
+                            download
+                            className="text-lg font-medium flex items-center gap-1 hover:text-muted-foreground transition-colors"
+                          >
+                            {project.downloadLabel}
+                            <Download className="h-4 w-4" />
                           </a>
                         </div>
                       </>

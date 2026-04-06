@@ -51,12 +51,7 @@ export function AboutSection() {
 
           <div className={`lg:pt-8 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
             <p className="text-lg sm:text-xl text-foreground leading-relaxed">
-              Creative &amp; Marketing Manager based in Abu Dhabi with 12+ years of experience.
-              I build brands, lead campaigns, produce video content, and now build AI products
-              like{" "}
-              <a href="https://wavi.chat" target="_blank" rel="noopener noreferrer" className="underline underline-offset-4 hover:opacity-70 transition-opacity">
-                wavi.chat
-              </a>.
+              A creative and marketing strategist from Sri Lanka, based in Abu Dhabi. Over a decade building brands, leading campaigns, and producing content across the UAE, across training, technology, and corporate events. Also working on AI-driven products and helping businesses with marketing automation. Strategy drives everything, paired with a deep interest in consumer psychology and how it shapes the way people connect with brands.
             </p>
           </div>
         </div>
@@ -70,7 +65,7 @@ export function AboutSection() {
             {skills.map((skill, index) => (
               <span
                 key={skill}
-                className={`border border-border px-3 py-1.5 text-sm font-medium text-foreground hover:bg-foreground hover:text-background transition-all duration-300 cursor-default ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+                className={`border border-border px-3 py-1.5 text-sm font-medium text-foreground cursor-default ${isVisible ? 'opacity-100' : 'opacity-0'}`}
                 style={{ transitionDelay: `${650 + index * 60}ms` }}
               >
                 {skill}
