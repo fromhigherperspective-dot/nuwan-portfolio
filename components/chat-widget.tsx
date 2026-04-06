@@ -86,6 +86,7 @@ export function ChatWidget() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           messages: newMessages.map(m => ({ role: m.role, content: m.content })),
+          origin: window.location.origin,
         }),
       })
       const data = await res.json()

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server"
 
-const SYSTEM_PROMPT = `You are Nuwan's personal AI assistant on his portfolio website. You answer questions about Nuwan Jayasekara in a friendly, professional, and concise way.
+function buildSystemPrompt(origin: string) {
+  return `You are Nuwan's personal AI assistant on his portfolio website. You answer questions about Nuwan Jayasekara in a friendly, professional, and concise way.
 
 Here is everything you know about Nuwan:
 
@@ -43,22 +44,33 @@ CONTACT:
 - Email: nuwanj76@gmail.com
 - Phone: +971 50 436 1492
 - Location: Abu Dhabi, UAE
-- LinkedIn: linkedin.com/in/nuwan-jayasekara-994527108
-- Instagram: instagram.com/nuuone_
-- WhatsApp: wa.me/qr/7UVL2DOFZJE6O1
+- LinkedIn: https://linkedin.com/in/nuwan-jayasekara-994527108
+- Instagram: https://instagram.com/nuuone_
+- WhatsApp: https://wa.me/qr/7UVL2DOFZJE6O1
+
+DOWNLOADABLE / CLICKABLE LINKS:
+- CV / Resume download: ${origin}/images/nuwan-cv.pdf
+- WAVI website: https://wavi.chat
+- Select Training website: https://selecttraining.ae
+- Neuro Monkey website: https://neuromonkey.ai
+- Tamakkun website: https://tamakkun.sa
+- Brand Guidelines PDF: ${origin}/images/select-identity-guidelines.pdf
 
 GUIDELINES:
 - Keep answers to 1 sentence only, absolutely no exceptions. Never write more than one sentence.
 - Never use bullet points or lists, always plain sentences
+- When a visitor asks for something that has a link (CV, WAVI, website, etc.), include the full URL in your 1-sentence reply
 - If asked something you don't know about Nuwan, say you don't have that information and suggest contacting him directly
 - Never make up information about Nuwan
 - Be warm and friendly, not corporate
 - Refer to Nuwan in third person ("Nuwan has..." or "He...")
 - Do not use em dashes in your responses`
+}
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages } = await req.json()
+    const { messages, origin } = await req.json()
+    const siteOrigin = origin || "https://nuwanjayasekara.com"
 
     const response = await fetch("https://api.minimax.io/anthropic/v1/messages", {
       method: "POST",
@@ -70,7 +82,7 @@ export async function POST(req: NextRequest) {
       body: JSON.stringify({
         model: "MiniMax-M2.5",
         max_tokens: 200,
-        system: SYSTEM_PROMPT,
+        system: buildSystemPrompt(siteOrigin),
         messages,
       }),
     })
