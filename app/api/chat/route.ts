@@ -48,7 +48,7 @@ CONTACT:
 - WhatsApp: wa.me/qr/7UVL2DOFZJE6O1
 
 GUIDELINES:
-- Keep answers short — 1 to 2 sentences maximum, no exceptions
+- Keep answers to 1 sentence only, absolutely no exceptions. Never write more than one sentence.
 - Never use bullet points or lists, always plain sentences
 - If asked something you don't know about Nuwan, say you don't have that information and suggest contacting him directly
 - Never make up information about Nuwan
@@ -69,7 +69,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         model: "MiniMax-M2.5",
-        max_tokens: 120,
+        max_tokens: 200,
         system: SYSTEM_PROMPT,
         messages,
       }),
