@@ -50,14 +50,14 @@ export function HeroSection() {
               Twelve years of brand strategy, marketing, and creative production. The same instincts now behind a self-sustaining AI product.
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4">
-              <Button asChild variant="outline" size="lg" className="px-6 sm:px-8 group overflow-hidden relative w-full sm:w-auto">
+            <div className="flex flex-row gap-3 sm:gap-4">
+              <Button asChild variant="outline" size="lg" className="px-6 sm:px-8 group overflow-hidden relative flex-1 sm:flex-none sm:w-auto">
                 <Link href="#projects" onClick={(e) => scrollToSection(e, "#projects")}>
                   <span className="relative z-10 group-hover:text-background transition-colors">View Projects</span>
                   <span className="absolute inset-0 bg-foreground translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 </Link>
               </Button>
-              <Button asChild variant="outline" size="lg" className="px-6 sm:px-8 group overflow-hidden relative w-full sm:w-auto">
+              <Button asChild variant="outline" size="lg" className="px-6 sm:px-8 group overflow-hidden relative flex-1 sm:flex-none sm:w-auto">
                 <Link href="#contact" onClick={(e) => scrollToSection(e, "#contact")}>
                   <span className="relative z-10 group-hover:text-background transition-colors">Get in Touch</span>
                   <span className="absolute inset-0 bg-foreground translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
