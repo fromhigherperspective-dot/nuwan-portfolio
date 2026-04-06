@@ -6,14 +6,14 @@ import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 const videos = [
   {
     id: 1,
-    title: "VR Painting with Cathy Deniset",
-    client: "Shiseido · Dubai",
+    title: "Team Building With SELECT",
+    client: "Select Training & Management Consultancy",
     date: "June 2023",
-    duration: "1:12",
+    duration: "1:37",
     description:
-      "Virtual Reality system supporting a live 360 VR painting performance at a Shiseido product launch in Dubai.",
-    thumbnail: "https://img.youtube.com/vi/wJJdVT70dAs/maxresdefault.jpg",
-    link: "https://www.youtube.com/watch?v=wJJdVT70dAs",
+      "Curated team building activities designed to boost morale, improve communication, and promote trust within organizations.",
+    thumbnail: "https://img.youtube.com/vi/2fohSzMdbDw/maxresdefault.jpg",
+    link: "https://www.youtube.com/watch?v=2fohSzMdbDw",
   },
   {
     id: 2,
@@ -28,14 +28,14 @@ const videos = [
   },
   {
     id: 3,
-    title: "Team Building With SELECT",
-    client: "Select Training & Management Consultancy",
+    title: "VR Painting with Cathy Deniset",
+    client: "Shiseido · Dubai",
     date: "June 2023",
-    duration: "1:37",
+    duration: "1:12",
     description:
-      "Curated team building activities designed to boost morale, improve communication, and promote trust within organizations.",
-    thumbnail: "https://img.youtube.com/vi/2fohSzMdbDw/maxresdefault.jpg",
-    link: "https://www.youtube.com/watch?v=2fohSzMdbDw",
+      "Virtual Reality system supporting a live 360 VR painting performance at a Shiseido product launch in Dubai.",
+    thumbnail: "https://img.youtube.com/vi/wJJdVT70dAs/maxresdefault.jpg",
+    link: "https://www.youtube.com/watch?v=wJJdVT70dAs",
   },
 ]
 

@@ -7,6 +7,7 @@ import { ManagedChannels } from "@/components/managed-channels"
 import { ContentLibrary } from "@/components/content-library"
 import { ContactSection } from "@/components/contact-section"
 import { Footer } from "@/components/footer"
+import { ChatWidget } from "@/components/chat-widget"
 
 export default function Home() {
   return (
@@ -20,6 +21,7 @@ export default function Home() {
       <ContentLibrary />
       <ContactSection />
       <Footer />
+      <ChatWidget />
     </main>
   )
 }
