@@ -11,6 +11,29 @@ interface Message {
 
 const GREETING = "Hi! I'm Nuwan's AI assistant. Ask me anything about his work, experience, or projects."
 
+function renderWithLinks(text: string) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g
+  const parts = text.split(urlRegex)
+  return parts.map((part, i) => {
+    if (/^https?:\/\//.test(part)) {
+      const isDownload = part.includes('.pdf')
+      return (
+        <a
+          key={i}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          download={isDownload ? true : undefined}
+          className="underline underline-offset-2 opacity-80 hover:opacity-100 break-all"
+        >
+          {isDownload ? "Download here" : part.replace(/^https?:\/\//, '')}
+        </a>
+      )
+    }
+    return part
+  })
+}
+
 function TypewriterMessage({ text, onDone }: { text: string; onDone?: () => void }) {
   const [displayed, setDisplayed] = useState("")
   const [done, setDone] = useState(false)
@@ -145,7 +168,7 @@ export function ChatWidget() {
                     onDone={() => setTypingIds(prev => { const s = new Set(prev); s.delete(i); return s })}
                   />
                 ) : (
-                  msg.content
+                  renderWithLinks(msg.content)
                 )}
               </div>
             </div>
