@@ -1,9 +1,28 @@
 "use client"
 
-import { ArrowDown } from "lucide-react"
+import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 28 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+  },
+}
+
+const container = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.14,
+      delayChildren: 0.15,
+    },
+  },
+}
 
 export function HeroSection() {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -37,20 +56,34 @@ export function HeroSection() {
       <div className="container mx-auto px-4 sm:px-6 relative z-10">
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* Text content */}
-          <div className="order-2 lg:order-1">
-            <p className="text-muted-foreground text-xs sm:text-sm uppercase tracking-[0.3em] mb-4 sm:mb-6">
+          <motion.div
+            className="order-2 lg:order-1"
+            variants={container}
+            initial="hidden"
+            animate="show"
+          >
+            <motion.p
+              className="text-muted-foreground text-xs sm:text-sm uppercase tracking-[0.3em] mb-4 sm:mb-6"
+              variants={fadeUp}
+            >
               Creative &amp; Marketing Manager · Abu Dhabi
-            </p>
+            </motion.p>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tighter mb-6 sm:mb-8 overflow-hidden">
+            <motion.h1
+              className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-9xl font-bold tracking-tighter mb-6 sm:mb-8"
+              variants={fadeUp}
+            >
               Nuwan.
-            </h1>
+            </motion.h1>
 
-            <p className="text-lg sm:text-xl md:text-2xl text-foreground max-w-xl mb-8 sm:mb-12 leading-relaxed font-light">
+            <motion.p
+              className="text-lg sm:text-xl md:text-2xl text-foreground max-w-xl mb-8 sm:mb-12 leading-relaxed font-light"
+              variants={fadeUp}
+            >
               Twelve years of brand strategy, marketing, and creative production. The same instincts now behind a self-sustaining AI product.
-            </p>
+            </motion.p>
 
-            <div className="flex flex-row gap-3 sm:gap-4">
+            <motion.div className="flex flex-row gap-3 sm:gap-4" variants={fadeUp}>
               <Button asChild variant="outline" size="lg" className="px-6 sm:px-8 group overflow-hidden relative flex-1 sm:flex-none sm:w-auto">
                 <Link href="#projects" onClick={(e) => scrollToSection(e, "#projects")}>
                   <span className="relative z-10 group-hover:text-background transition-colors">View Projects</span>
@@ -63,11 +96,16 @@ export function HeroSection() {
                   <span className="absolute inset-0 bg-foreground translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
                 </Link>
               </Button>
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Hero Image */}
-          <div className="order-1 lg:order-2 flex justify-center lg:justify-end">
+          <motion.div
+            className="order-1 lg:order-2 flex justify-center lg:justify-end"
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.9, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+          >
             <div className="relative">
               {/* Offset decorative border */}
               <div className="absolute -bottom-4 -right-4 w-full h-full border border-border opacity-60" />
@@ -84,9 +122,8 @@ export function HeroSection() {
                 <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-40" />
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
-
       </div>
     </section>
   )

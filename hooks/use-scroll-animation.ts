@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 
 export function useScrollAnimation(threshold = 0.1) {
   const ref = useRef<HTMLElement>(null)
-  const [isVisible, setIsVisible] = useState(true)
+  const [isVisible, setIsVisible] = useState(false)
 
   useEffect(() => {
     // Fallback: always show content after 1.2s even if observer doesn't fire
