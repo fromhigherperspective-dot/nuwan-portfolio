@@ -25,7 +25,7 @@ const socialLinks = [
   { icon: Linkedin, href: "https://www.linkedin.com/in/nuwan-jayasekara-994527108/", label: "LinkedIn" },
   { icon: Instagram, href: "https://www.instagram.com/nuuone_/", label: "Instagram" },
   { icon: WhatsAppIcon, href: "https://wa.me/qr/7UVL2DOFZJE6O1", label: "WhatsApp" },
-  { icon: Youtube, href: "https://www.youtube.com/channel/UCIpOIdikpXU_ffpKd7wLOhw", label: "YouTube" },
+  { icon: Youtube, href: "https://www.youtube.com/@fromhigherperspective8531", label: "YouTube" },
   { icon: SoundCloudIcon, href: "https://soundcloud.com/nuuone", label: "SoundCloud" },
 ]
 
