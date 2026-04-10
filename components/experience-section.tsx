@@ -31,6 +31,7 @@ const experience = [
     description:
       "Leading all marketing, digital, and creative operations for one of Abu Dhabi's established training and management consultancy firms.",
     highlights: [
+      "Lead and manage the creative and marketing department, overseeing a cross-functional team across design, content, and digital operations",
       "Launched a fully redesigned website, achieving a 47% increase in visits",
       "Built and managed the LMS platform at selecttraining.ae",
       "Developed comprehensive brand guidelines and visual identity",
