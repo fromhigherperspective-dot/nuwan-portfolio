@@ -1,7 +1,7 @@
 "use client"
 
 import { Mail, Phone, MapPin, Linkedin, Instagram, Youtube } from "lucide-react"
-import { motion } from "framer-motion"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const WhatsAppIcon = () => (
   <svg viewBox="0 0 24 24" className="h-5 w-5 sm:h-6 sm:w-6" fill="currentColor">
@@ -29,50 +29,34 @@ const socialLinks = [
   { icon: SoundCloudIcon, href: "https://soundcloud.com/nuuone", label: "SoundCloud" },
 ]
 
-const vp = { once: true, margin: "-80px" }
-const ease = [0.22, 1, 0.36, 1] as const
-
 export function ContactSection() {
+  const { ref: sectionRef, isVisible } = useScrollAnimation(0.1)
+
   return (
-    <section id="contact" className="py-16 sm:py-24 lg:py-32 border-t border-border">
+    <section
+      id="contact"
+      className="py-16 sm:py-24 lg:py-32 border-t border-border"
+      ref={sectionRef as React.RefObject<HTMLElement>}
+    >
       <div className="container mx-auto px-4 sm:px-6">
 
-        <motion.div
-          className="mb-12 sm:mb-16"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={vp}
-          transition={{ duration: 0.7, ease }}
-        >
+        <div className={`mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <p className="text-muted-foreground text-xs sm:text-sm uppercase tracking-[0.3em] mb-3 sm:mb-4">
             Get in Touch
           </p>
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight overflow-hidden">
-            <motion.span
-              className="block"
-              initial={{ y: "100%" }}
-              whileInView={{ y: 0 }}
-              viewport={vp}
-              transition={{ duration: 0.7, delay: 0.15, ease }}
-            >
+            <span className={`block transition-transform duration-700 delay-200 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
               Contact
-            </motion.span>
+            </span>
           </h2>
-        </motion.div>
+        </div>
 
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
 
           {/* Contact Info */}
-          <div className="space-y-5">
-            {contactInfo.map((info, index) => (
-              <motion.div
-                key={info.label}
-                className="flex items-center gap-5 group"
-                initial={{ opacity: 0, y: 16 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
-              >
+          <div className={`space-y-5 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+            {contactInfo.map((info) => (
+              <div key={info.label} className="flex items-center gap-5 group">
                 <div className="w-11 h-11 border border-border flex items-center justify-center flex-shrink-0 group-hover:bg-foreground group-hover:text-background transition-colors duration-300">
                   <info.icon className="h-4 w-4" />
                 </div>
@@ -86,39 +70,30 @@ export function ContactSection() {
                     <p className="text-base font-medium">{info.value}</p>
                   )}
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
           {/* Social Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.6, delay: 0.2, ease }}
-          >
+          <div className={`transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
             <p className="text-xs text-muted-foreground uppercase tracking-[0.3em] mb-6">
               Find Me Online
             </p>
             <div className="flex flex-wrap gap-3">
-              {socialLinks.map((social, index) => (
-                <motion.a
+              {socialLinks.map((social) => (
+                <a
                   key={social.label}
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center gap-2.5 border border-border px-4 py-3 text-muted-foreground hover:text-foreground hover:border-foreground transition-all duration-300"
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: 0.3 + index * 0.07, duration: 0.4 }}
                 >
                   <social.icon />
                   <span className="text-sm font-medium">{social.label}</span>
-                </motion.a>
+                </a>
               ))}
             </div>
-          </motion.div>
+          </div>
 
         </div>
       </div>

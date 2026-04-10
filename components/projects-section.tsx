@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { ArrowUpRight, Download } from "lucide-react"
-import { motion } from "framer-motion"
+
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const projects = [
   {
@@ -45,58 +46,44 @@ const projects = [
   },
 ]
 
-const vp = { once: true, margin: "-80px" }
-const ease = [0.22, 1, 0.36, 1] as const
-
 export function ProjectsSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null)
   const [selectedId, setSelectedId] = useState<number>(1)
   const [expandedMobileId, setExpandedMobileId] = useState<number | null>(null)
   const activeId = hoveredId ?? selectedId
+  const { ref: sectionRef, isVisible } = useScrollAnimation(0.1)
 
   return (
-    <section id="projects" className="py-16 sm:py-24 lg:py-32 border-t border-border">
+    <section 
+      id="projects" 
+      className="py-16 sm:py-24 lg:py-32 border-t border-border"
+      ref={sectionRef as React.RefObject<HTMLElement>}
+    >
       <div className="container mx-auto px-4 sm:px-6">
-
-        {/* Header */}
-        <motion.div
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 sm:gap-8 mb-12 sm:mb-16"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={vp}
-          transition={{ duration: 0.7, ease }}
-        >
+        <div className={`flex flex-col md:flex-row md:items-end md:justify-between gap-6 sm:gap-8 mb-12 sm:mb-16 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <div>
             <p className="text-muted-foreground text-xs sm:text-sm uppercase tracking-[0.2em] sm:tracking-[0.3em] mb-3 sm:mb-4">
               Selected Work
             </p>
             <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight overflow-hidden">
-              <motion.span
-                className="block"
-                initial={{ y: "100%" }}
-                whileInView={{ y: 0 }}
-                viewport={vp}
-                transition={{ duration: 0.7, delay: 0.15, ease }}
-              >
+              <span className={`block transition-transform duration-700 delay-200 ${isVisible ? 'translate-y-0' : 'translate-y-full'}`}>
                 Projects
-              </motion.span>
+              </span>
             </h2>
           </div>
-        </motion.div>
+        </div>
 
         {/* Mobile: Card Layout */}
         <div className="lg:hidden space-y-3">
           {projects.map((project, index) => {
             const isExpanded = expandedMobileId === project.id
             return (
-              <motion.div
+              <div
                 key={project.id}
-                className="border border-border overflow-hidden"
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: index * 0.08, ease: "easeOut" }}
+                className={`border border-border overflow-hidden transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
+                style={{ transitionDelay: `${400 + index * 100}ms` }}
               >
+                {/* Clickable header */}
                 <button
                   className="w-full p-4 sm:p-5 flex items-center justify-between gap-4 text-left"
                   onClick={() => setExpandedMobileId(isExpanded ? null : project.id)}
@@ -108,9 +95,11 @@ export function ProjectsSection() {
                   <ArrowUpRight className={`h-4 w-4 text-muted-foreground flex-shrink-0 transition-transform duration-300 ${isExpanded ? 'rotate-90' : ''}`} />
                 </button>
 
+                {/* Expandable content */}
                 <div className={`overflow-hidden transition-all duration-400 ease-in-out ${isExpanded ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
                   <div className="px-4 sm:px-5 pb-5 space-y-4 border-t border-border pt-4">
                     <p className="text-sm text-foreground leading-relaxed">{project.description}</p>
+
                     <div className="flex flex-wrap gap-4 pt-2">
                       <div>
                         <p className="text-xs text-muted-foreground uppercase tracking-widest mb-1">Year</p>
@@ -152,24 +141,20 @@ export function ProjectsSection() {
                     </div>
                   </div>
                 </div>
-              </motion.div>
+              </div>
             )
           })}
         </div>
 
         {/* Desktop: List Layout with Preview */}
         <div className="hidden lg:grid lg:grid-cols-2 gap-8">
-
           {/* Project List */}
           <div className="space-y-0">
             {projects.map((project, index) => (
-              <motion.div
+              <div
                 key={project.id}
-                className="group border-t border-border last:border-b"
-                initial={{ opacity: 0, x: -24 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true, margin: "-40px" }}
-                transition={{ duration: 0.5, delay: index * 0.1, ease: "easeOut" }}
+                className={`group border-t border-border last:border-b transition-all duration-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-10'}`}
+                style={{ transitionDelay: `${400 + index * 100}ms` }}
                 onMouseEnter={() => setHoveredId(project.id)}
                 onMouseLeave={() => setHoveredId(null)}
                 onClick={() => setSelectedId(project.id)}
@@ -186,9 +171,13 @@ export function ProjectsSection() {
                         </h3>
                       </div>
                       <div className="flex items-center gap-4 mt-1">
-                        <span className="text-xs text-muted-foreground">{project.category}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {project.category}
+                        </span>
                         <span className="w-1 h-1 bg-muted-foreground rounded-full" />
-                        <span className="text-xs text-muted-foreground">{project.year}</span>
+                        <span className="text-xs text-muted-foreground">
+                          {project.year}
+                        </span>
                         {project.link && (
                           <>
                             <span className="w-1 h-1 bg-muted-foreground rounded-full" />
@@ -200,32 +189,29 @@ export function ProjectsSection() {
                       </div>
                     </div>
                   </div>
+                  
                   <ArrowUpRight
                     className={`h-5 w-5 transition-all duration-300 ${
                       activeId === project.id ? "translate-x-1 -translate-y-1 text-foreground" : "text-muted-foreground"
                     }`}
                   />
                 </div>
-              </motion.div>
+              </div>
             ))}
           </div>
 
           {/* Project Info Panel */}
-          <motion.div
-            className="sticky top-32"
-            initial={{ opacity: 0, x: 24 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.7, delay: 0.3, ease }}
-          >
+          <div className={`sticky top-32 transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
             <div className="border border-border p-8">
               {projects.filter(p => p.id === activeId).map(project => (
                 <div key={project.id} className="panel-animate flex flex-col gap-6">
                   <div>
                     <div className="flex items-center gap-3 mb-5">
                       <span className="text-sm text-muted-foreground uppercase tracking-widest">{project.category}</span>
-                    </div>
+                      </div>
+
                     <h3 className="text-3xl xl:text-4xl font-bold tracking-tight mb-5">{project.title}</h3>
+
                     <p className="text-foreground text-lg leading-relaxed">{project.description}</p>
                   </div>
 
@@ -276,7 +262,7 @@ export function ProjectsSection() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
     </section>
