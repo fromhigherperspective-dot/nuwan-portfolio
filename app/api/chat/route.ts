@@ -81,7 +81,7 @@ export async function POST(req: NextRequest) {
       },
       body: JSON.stringify({
         model: "MiniMax-M2.5",
-        max_tokens: 200,
+        max_tokens: 1024,
         system: buildSystemPrompt(siteOrigin),
         messages,
       }),
@@ -94,8 +94,8 @@ export async function POST(req: NextRequest) {
     }
 
     const data = await response.json()
-    const textBlock = data.content?.find((b: { type: string; text?: string }) => b.type === "text")
-    const text = textBlock?.text ?? "Sorry, I couldn't get a response."
+    const textBlock = data.content?.find((b: { type: string }) => b.type === "text")
+    const text = textBlock?.text ?? data.content?.[0]?.text ?? "Sorry, I couldn't get a response."
 
     return NextResponse.json({ message: text })
   } catch (err) {
